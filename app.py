@@ -1,6 +1,6 @@
 from flask import Flask, request
 from werkzeug.utils import secure_filename as secure
-import tensorflow
+import tensorflow, json
 app = Flask(__name__)
 
 @app.route('/')
@@ -9,7 +9,7 @@ def home():
 	
 @app.route("/search", methods=["POST"])
 def search():
-	return request.files[0].filename
+	return json.dumps(request.files)
 	if len(request.files) == 0 or request.files[0].filename == "" or "." not in request.files[0].filename or request.files[0].filename.rsplit('.', 1)[1].lower() not in ["png", "jpeg", "jpg"]:
 		return "[]"
 	file = request.files[0]
