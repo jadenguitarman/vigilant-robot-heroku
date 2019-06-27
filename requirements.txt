@@ -3,3 +3,5 @@ flask
 werkzeug
 tensorflow
 opencv-python
+numpy
+h5py
