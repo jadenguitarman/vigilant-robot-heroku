@@ -2,3 +2,4 @@ gunicorn
 flask
 werkzeug
 tensorflow
+opencv-python
