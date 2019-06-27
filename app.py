@@ -9,6 +9,7 @@ def home():
 	
 @app.route("/search", methods=["POST"])
 def search():
+	print(request.files)
 	file = request.files["to_search"]
 	print(file)
 	if (file.filename == "") or ("." not in file.filename) or (file.filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
@@ -18,4 +19,4 @@ def search():
 	return filename
 	
 if __name__ == '__main__':
-	app.run(use_reloader=True)
+	app.run(use_reloader=True, debug=True)
