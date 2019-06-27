@@ -1,10 +1,10 @@
 from flask import Flask
 import tensorflow
-app = Flask(__name__)
+flask = Flask(__name__)
 
-@app.route('/')
+@flask.route('/')
 def home():
     return "Home page"
 
 if __name__ == '__main__':
-	app.run(use_reloader=True)
+	flask.run(use_reloader=True)
