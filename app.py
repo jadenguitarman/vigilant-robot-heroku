@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "<form method='post' action='/search'><input name='to_search' type='file' enctype='multipart/form-data'><input type='submit'></form>"
+    return "<form method='post' action='/search' enctype='multipart/form-data'><input name='to_search' type='file'><input type='submit'></form>"
 	
 @app.route("/search", methods=["GET", "POST"])
 def search():
