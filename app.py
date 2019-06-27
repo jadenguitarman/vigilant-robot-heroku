@@ -9,7 +9,7 @@ def home():
 	
 @app.route("/search", methods=["POST"])
 def search():
-	file = request.files.to_dict(flat=True)["to_search"]
+	file = request.files["to_search"]
 	print(file)
 	if (file.filename == "") or ("." not in file.filename) or (file.filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
 		return "[]"
