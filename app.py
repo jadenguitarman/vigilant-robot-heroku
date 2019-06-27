@@ -11,6 +11,8 @@ def home():
 def search():
 	if request.method == "POST":
 		print(request.files)
+		if "to_search" not in request.files:
+			return "Error, valid requests include a 'to_search' parameter."
 		file = request.files["to_search"]
 		print(file)
 		if (file.filename == "") or ("." not in file.filename) or (file.filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
