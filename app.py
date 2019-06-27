@@ -9,7 +9,13 @@ def home():
 	
 @app.route("/search", methods=["POST"])
 def search():
-	if ("to_search" not in request.files) or (request.files["to_search"].filename == "") or ("." not in request.files["to_search"].filename) or (request.files["to_search"].filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
+	if ("to_search" not in request.files):
+		return "a"
+	if (request.files["to_search"].filename == ""):
+		return "b";
+	if ("." not in request.files["to_search"].filename):
+		return "c"; 
+	if (request.files["to_search"].filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
 		return "[]"
 	file = request.files[0]
 	filename = secure(file.filename)
