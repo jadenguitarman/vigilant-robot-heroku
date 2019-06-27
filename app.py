@@ -5,12 +5,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "<form method='post' action='/search'><input name='input' type='file'><input type='submit'></form>"
+    return "<form method='post' action='/search'><input name='to_search' type='file'><input type='submit'></form>"
 	
 @app.route("/search", methods=["POST"])
 def search():
-	return json.dumps(request.files)
-	if len(request.files) == 0 or request.files[0].filename == "" or "." not in request.files[0].filename or request.files[0].filename.rsplit('.', 1)[1].lower() not in ["png", "jpeg", "jpg"]:
+	if ("to_search" not in request.files) or (request.files["to_search"].filename == "") or ("." not in request.files["to_search"].filename) or (request.files["to_search"].filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
 		return "[]"
 	file = request.files[0]
 	filename = secure(file.filename)
