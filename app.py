@@ -9,6 +9,7 @@ def home():
 	
 @app.route("/search", methods=["POST"])
 def search():
+	return request.files[0].filename
 	if len(request.files) == 0 or request.files[0].filename == "" or "." not in request.files[0].filename or request.files[0].filename.rsplit('.', 1)[1].lower() not in ["png", "jpeg", "jpg"]:
 		return "[]"
 	file = request.files[0]
