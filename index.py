@@ -6,3 +6,5 @@ app = Flask(__name__)
 def home():
     return "Home page"
 
+if __name__ == '__main__':
+	app.run(use_reloader=True)
