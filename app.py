@@ -8,7 +8,6 @@ def home():
     return "<form method='post' action='/search'><input name='to_search' type='file'><input type='submit'></form>"
 	
 @app.route("/search", methods=["POST"])
-@cross_origin()
 def search():
 	print(request.files)
 	if ("to_search" not in request.files):
