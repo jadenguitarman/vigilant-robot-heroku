@@ -46,26 +46,9 @@ def train():
 	test_loss, test_acc = model.evaluate(test_images, test_labels)
 	print('Test accuracy:', test_acc)
 	model_json = model.to_json()
-	with open("/tmp/model.json", "w") as json_file:
-		json_file.write(model_json)
-	# serialize weights to HDF5
-	model.save_weights("/tmp/model.h5")
-	print("Saved model to disk")
-	return "Saved"
-	
-@app.route("/test")
-def test():
-	with open(os.path.join(MYDIR+"/tmp/model.json"), "w") as json_file:
-		json_file.write('{"hello":"wassup"}')
-	return "done"
-
-@app.route("/model.json")
-def json():
-	return app.send_static_file(os.path.join(MYDIR+"/tmp/model.json"))
-
-@app.route("/model.h5")
-def h5():
-	return app.send_static_file("tmp/model.h5")
+	model_weights = model.get_weights()
+	to_return = model_json + "\n\n\n\n\n\n\n\n\n\n" + model_weights
+	return to_return
 
 if __name__ == '__main__':
 	app.run(use_reloader=True, debug=True)
