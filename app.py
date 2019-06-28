@@ -27,7 +27,9 @@ def search():
 			model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
 		img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
 		img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA) / 255
-		img = (np.expand_dims(img,0))
+		print(img.shape)
+		img = np.expand_dims(img,0)
+		print(img.shape)
 		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
 		prediction = class_names[np.argmax(model.predict(img)[0])]
 		
