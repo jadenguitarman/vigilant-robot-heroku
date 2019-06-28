@@ -1,9 +1,8 @@
-import h5py, pickle, numpy, io
+import h5py, numpy
 
-with io.open("train.txt", "r", encoding="latin1") as f:
-    b = f.read()
+with open("train.txt") as f:
+    inp = f.read()
 
-encoded = b.encode("latin1")
-unpickled = pickle.loads(encoded)
+model_weights = [numpy.fromstring(k[2].encode(), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(inp)]
 #h5f = h5py.File('model.h5', 'w')
 #h5f.create_dataset('dataset_1', data=a)
