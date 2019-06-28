@@ -44,20 +44,20 @@ def train():
 	test_loss, test_acc = model.evaluate(test_images, test_labels)
 	print('Test accuracy:', test_acc)
 	model_json = model.to_json()
-	with open("/model.json", "w") as json_file:
+	with open("/tmp/model.json", "w") as json_file:
 		json_file.write(model_json)
 	# serialize weights to HDF5
-	model.save_weights("/model.h5")
+	model.save_weights("/tmp/model.h5")
 	print("Saved model to disk")
 	return "Saved"
 
 @app.route("/model.json")
 def json():
-	return app.send_static_file("model.json")
+	return app.send_static_file("tmp/model.json")
 
 @app.route("/model.h5")
 def h5():
-	return app.send_static_file("model.h5")
+	return app.send_static_file("tmp/model.h5")
 
 if __name__ == '__main__':
 	app.run(use_reloader=True, debug=True)
