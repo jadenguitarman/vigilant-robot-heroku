@@ -4,7 +4,9 @@ import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 import cv2
+
 app = Flask(__name__)
+MYDIR = os.path.dirname(__file__)
 
 @app.route('/')
 def home():
@@ -53,12 +55,12 @@ def train():
 	
 @app.route("/test")
 def test():
-	with open("tmp/model.json", "w") as json_file:
+	with open(MYDIR+"/tmp/model.json", "w") as json_file:
 		json_file.write('{"hello":"wassup"}')
 
 @app.route("/model.json")
 def json():
-	return app.send_static_file("tmp/model.json")
+	return app.send_static_file(MYDIR+"/tmp/model.json")
 
 @app.route("/model.h5")
 def h5():
