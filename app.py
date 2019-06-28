@@ -31,7 +31,7 @@ def search():
 		img = np.expand_dims(img,0)
 		print(img.shape)
 		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
-		prediction = model.predict(img)[0]
+		prediction = model.predict(img).flatten();
 		prediction.dtype = float
 		print(prediction)
 		prediction = json.dumps(dict(zip(class_names, prediction.tolist())))
