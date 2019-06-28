@@ -50,6 +50,11 @@ def train():
 	model.save_weights("/tmp/model.h5")
 	print("Saved model to disk")
 	return "Saved"
+	
+@app.route("/test")
+def test():
+	with open("/tmp/model.json", "w") as json_file:
+		json_file.write('{"hello":"wassup"}')
 
 @app.route("/model.json")
 def json():
