@@ -33,7 +33,8 @@ def search():
 		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
 		prediction = model.predict(img)[0]
 		prediction.dtype = float
-		prediction = json.dumps(dict(zip(class_names, prediction)))
+		print(prediction)
+		prediction = json.dumps(dict(zip(class_names, prediction.tolist())))
 		
 		return prediction
 	else:
