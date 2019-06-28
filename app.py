@@ -47,6 +47,7 @@ def train():
 	print('Test accuracy:', test_acc)
 	model_json = model.to_json()
 	model_weights = model.get_weights()
+	print(model_weights)
 	to_return = model_json + "\n\n\n\n"+str(model_weights.shape)+"\n"+str(model_weights.dtype)+"\n\n\n\n\n\n" + model_weights.tostring()
 	return to_return
 
