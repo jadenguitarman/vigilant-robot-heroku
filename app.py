@@ -31,11 +31,7 @@ def search():
 		img = np.expand_dims(img,0)
 		print(img.shape)
 		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
-		prediction = model.predict(img).flatten();
-		prediction.dtype = float
-		print(prediction)
-		prediction = json.dumps(dict(zip(class_names, prediction.tolist())))
-		
+		prediction = class_names[np.argmax(model.predict(img)[0])];
 		return prediction
 	else:
 		return "Hi there. This endpoint is restricted to POST requests, so please check the docs if you're trying to use the Vigilant Robot REST API. Thanks!"
