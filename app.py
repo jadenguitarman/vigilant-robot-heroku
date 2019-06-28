@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename as secure
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import cv2
+import cv2, os
 
 app = Flask(__name__)
 MYDIR = os.path.dirname(__file__)
@@ -55,12 +55,13 @@ def train():
 	
 @app.route("/test")
 def test():
-	with open(MYDIR+"/tmp/model.json", "w") as json_file:
+	with open(os.path.join(MYDIR+"/tmp/model.json"), "w") as json_file:
 		json_file.write('{"hello":"wassup"}')
+	return "done"
 
 @app.route("/model.json")
 def json():
-	return app.send_static_file(MYDIR+"/tmp/model.json")
+	return app.send_static_file(os.path.join(MYDIR+"/tmp/model.json"))
 
 @app.route("/model.h5")
 def h5():
