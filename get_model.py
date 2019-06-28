@@ -1,6 +1,6 @@
-import h5py, pickle, numpy
+import h5py, pickle, numpy, io
 
-with open("train2.txt", "r") as f:
+with io.open("train.txt", "r", encoding="latin1") as f:
     b = f.read()
 
 encoded = b.encode("latin1")
