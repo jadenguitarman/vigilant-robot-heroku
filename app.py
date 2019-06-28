@@ -3,9 +3,10 @@ from werkzeug.utils import secure_filename as secure
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import cv2, json
+import cv2, json, os
 
 app = Flask(__name__)
+DIR = os.getcwd()
 
 @app.route('/')
 def home():
@@ -22,9 +23,9 @@ def search():
 			return "[]"
 		file.filename = secure(file.filename)
 		np.random.seed(7)
-		with open("/images/"+id+".json") as f:
+		with open(DIR+"/images/"+id+".json") as f:
 			model = keras.models.model_from_json(f.read())
-		with open("/images/"+id+".txt") as f:
+		with open(DIR+"/images/"+id+".txt") as f:
 			model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
 		img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
 		img = cv2.resize(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), (28,28), interpolation=cv2.INTER_AREA) / 255
@@ -67,9 +68,9 @@ def cont():
 	train_images = train_images / 255.0
 	test_images = test_images / 255.0
 	id = request.args["id"]
-	with open("/images/"+id+".json") as f:
+	with open(DIR+"/images/"+id+".json") as f:
 		model = keras.models.model_from_json(f.read())
-	with open("/images/"+id+".txt") as f:
+	with open(DIR="/images/"+id+".txt") as f:
 		model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
 	model.fit(train_images, train_labels, epochs=1)
 	test_loss, test_acc = model.evaluate(test_images, test_labels)
@@ -79,6 +80,10 @@ def cont():
 	model_weights = json.dumps([[str(k.dtype), list(k.shape), k.tostring().decode("latin-1")] for k in model_weights])
 	to_return = model_json + "\n\n\n\n\n\n\n\n" + model_weights
 	return to_return
+	
+@app.route("/images/<image>")
+def static_images(image):
+	return app.
 	
 if __name__ == '__main__':
 	app.run(use_reloader=True, debug=True)
