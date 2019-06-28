@@ -31,7 +31,9 @@ def search():
 		img = np.expand_dims(img,0)
 		print(img.shape)
 		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
-		prediction = class_names[np.argmax(model.predict(img)[0])]
+		prediction = model.predict(img)[0]
+		prediction.dtype = float
+		prediction = json.dumps(dict(zip([class_names[x] for x in prediction], prediction)))
 		
 		return prediction
 	else:
