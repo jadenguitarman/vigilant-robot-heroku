@@ -3,10 +3,9 @@ from werkzeug.utils import secure_filename as secure
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import cv2, os, json
+import cv2, json
 
 app = Flask(__name__)
-MYDIR = os.path.dirname(__file__)
 
 @app.route('/')
 def home():
@@ -22,8 +21,12 @@ def search():
 		print(file)
 		if (file.filename == "") or ("." not in file.filename) or (file.filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
 			return "[]"
-		file.filename = secure(file.filename)	
-		img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+		file.filename = secure(file.filename)
+		with open("model.json") as f:
+			model = keras.models.model_from_json(f.read())
+		with open("model.txt") as f:
+			model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
+		#img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
 		return filename
 	else:
 		return "Hi there. This endpoint is restricted to POST requests, so please check the docs if you're trying to use the Vigilant Robot REST API. Thanks!"
