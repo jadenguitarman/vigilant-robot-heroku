@@ -18,7 +18,6 @@ def search():
 		if "to_search" not in request.files:
 			return "Error, valid requests include a 'to_search' parameter."
 		file = request.files["to_search"]
-		print(file)
 		if (file.filename == "") or ("." not in file.filename) or (file.filename.split('.')[-1].lower() not in ["png", "jpeg", "jpg"]):
 			return "[]"
 		file.filename = secure(file.filename)
@@ -26,8 +25,9 @@ def search():
 			model = keras.models.model_from_json(f.read())
 		with open("model.txt") as f:
 			model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
-		#img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-		return filename
+		img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
+		img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA)
+		return file.filename
 	else:
 		return "Hi there. This endpoint is restricted to POST requests, so please check the docs if you're trying to use the Vigilant Robot REST API. Thanks!"
 
@@ -51,7 +51,6 @@ def train():
 	model_json = model.to_json()
 	model_weights = model.get_weights()
 	model_weights = json.dumps([[str(k.dtype), list(k.shape), k.tostring().decode("latin-1")] for k in model_weights])
-	print(model_weights)
 	to_return = model_json + "\n\n\n\n\n\n\n\n" + model_weights
 	return to_return
 
