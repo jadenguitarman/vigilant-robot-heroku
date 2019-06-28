@@ -26,8 +26,12 @@ def search():
 		with open("model.txt") as f:
 			model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
 		img = cv2.imdecode(np.fromstring(file.read(), np.uint8), cv2.IMREAD_UNCHANGED)
-		img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA)
-		return file.filename
+		img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA) / 255
+		img = (np.expand_dims(img,0))
+		class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
+		prediction = class_names[np.argmax(model.predict(img)[0])]
+		
+		return prediction
 	else:
 		return "Hi there. This endpoint is restricted to POST requests, so please check the docs if you're trying to use the Vigilant Robot REST API. Thanks!"
 
@@ -36,7 +40,6 @@ def train():
 	np.random.seed(7)
 	fashion_mnist = keras.datasets.fashion_mnist
 	(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
-	class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'] 
 	train_images = train_images / 255.0
 	test_images = test_images / 255.0
 	model = keras.Sequential([
