@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename as secure
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import cv2, os, pickle
+import cv2, os, json
 
 app = Flask(__name__)
 MYDIR = os.path.dirname(__file__)
@@ -47,7 +47,7 @@ def train():
 	print('Test accuracy:', test_acc)
 	model_json = model.to_json()
 	model_weights = model.get_weights()
-	model_weights = [[str(k.dtype), list(k.shape), k.tostring().decode()] for k in model_weights]
+	model_weights = json.dumps([[str(k.dtype), list(k.shape), k.tostring().decode()] for k in model_weights])
 	print(model_weights)
 	to_return = model_json + "\n\n\n\n\n\n\n\n" + model_weights
 	return to_return
