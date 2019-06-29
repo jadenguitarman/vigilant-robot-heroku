@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 from werkzeug.utils import secure_filename as secure
 import tensorflow as tf
 from tensorflow import keras
@@ -70,7 +70,7 @@ def cont():
 	id = request.args["id"]
 	with open(DIR+"/images/"+id+".json") as f:
 		model = keras.models.model_from_json(f.read())
-	with open(DIR="/images/"+id+".txt") as f:
+	with open(DIR+"/images/"+id+".txt") as f:
 		model.set_weights([np.fromstring(k[2].encode("latin-1"), dtype=k[0]).reshape(tuple(k[1])) for k in json.loads(f.read())])
 	model.fit(train_images, train_labels, epochs=1)
 	test_loss, test_acc = model.evaluate(test_images, test_labels)
@@ -83,7 +83,7 @@ def cont():
 	
 @app.route("/images/<image>")
 def static_images(image):
-	return app.
+	return send_from_directory(DIR+"/images", image)
 	
 if __name__ == '__main__':
 	app.run(use_reloader=True, debug=True)
