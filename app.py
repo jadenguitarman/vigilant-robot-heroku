@@ -6,7 +6,7 @@ import numpy as np
 import cv2, json, os
 
 app = Flask(__name__)
-DIR = os.getcwd()
+DIR = os.path.dirname(os.path.abspath(__file__))
 
 @app.route('/')
 def home():
